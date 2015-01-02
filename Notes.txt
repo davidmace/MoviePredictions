@@ -1,0 +1,38 @@
+Error Measure:
+    ideally for each prediction the error is residual/expected because you dont want to give a disproportionately high error weighting to measures with large expected values
+
+Baseline: 
+    revenue = f(budget) where f=ax ie. linear regression
+    test/train error: .417, .424
+
+Dow Jones Market Strength Experiments:
+	revenue*inflation_correction = f(budget*inflation_correction) where f=ax with linear regression
+    	test/train error: .413 , .410
+    revenue*inflation_correction = f(budget*inflation_correction, dow) where f=ax+by with linear regression
+    	test/train error: .405 , .389
+    revenue*inflation_correction = f(budget*inflation_correction, dow*inflation_correction) where f=ax+by with linear regression
+    	test/train error: .403 , .391
+    revenue*inflation_correction = f(budget*inflation_correction, dow*inflation_correction, budget*dow*inflation_correction) where f=ax+by+cxy with linear regression
+    	logic: at lower budget levels the effects of market strength on viewership should be lower hence the c term
+    	test/train error: .402 , .407
+    	explanation: there's overfitting so maybe it would be more effective to bin the budget in two groups and do linear regression independently on each TODO
+
+Studios :
+	Every studio should have an offset so our predictions look like average+b_budget+b_studio+b_marketstrength.
+
+Actor/Writer/Producer :
+	This has characteristics of a collaborative filtering problem and a clustering problem. It's where a lot of the interesting performance of the prediction will come from. Basically you're trying to figure out what actors/producers do well together ie <movie,actor> --> revenue . The trick is that you need a good indication of similarity between movies. There's also a time component to this because an actor who is involved in a successful movie will generally have much more contribution to later movies but not movies before he became famous.
+	http://www.netflixprize.com/assets/GrandPrize2009_BPC_BellKor.pdf
+
+Seasonality:
+	There should be an increase in revenue for certain release months. This might be an easy next step.
+
+Demographic :
+	I need to get a bunch of demographic data on how people were feeling in certain years and I'm sure some of this correlates with how well movies did. Conversely, a lot of this data should be embedded in how people responded to similar movies in similar time periods. A lot of this stuff depends on establishing a really good similarity metric, possibly from a combination of actors and plot natural language processing.
+
+Advertising :
+	Advertising budgets and techniques, coupled with demographics should give more information.
+
+Conflicting Movies:
+	Situations where a similar movie is successful a month before movie X should decrease the revenue of movie X.
+
